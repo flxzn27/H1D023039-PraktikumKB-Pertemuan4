@@ -1,16 +1,16 @@
 % Database dinamis
-:- dynamic gejala_pos/1.
-:- dynamic gejala_neg/1.
+:- dynamic sifat_pos/1.
+:- dynamic sifat_neg/1.
 
 % Preferensi MBTI
-gejala(introvert, ["ISTJ", "ISFJ", "INFJ", "INTJ", "ISTP", "ISFP", "INFP", "INTP"]).
-gejala(ekstrovert, ["ESTP", "ESFP", "ENFP", "ENTP", "ESTJ", "ESFJ", "ENFJ", "ENTJ"]).
-gejala(intuitif, ["INFJ", "INTJ", "INFP", "INTP", "ENFP", "ENTP", "ENFJ", "ENTJ"]).
-gejala(sensing, ["ISTJ", "ISFJ", "ISTP", "ISFP", "ESTP", "ESFP", "ESTJ", "ESFJ"]).
-gejala(thinking, ["ISTJ", "INTJ", "ISTP", "INTP", "ESTP", "ENTP", "ESTJ", "ENTJ"]).
-gejala(feeling, ["ISFJ", "INFJ", "ISFP", "INFP", "ESFP", "ENFP", "ESFJ", "ENFJ"]).
-gejala(perceiving, ["ISTP", "ISFP", "INFP", "INTP", "ESTP", "ESFP", "ENFP", "ENTP"]).
-gejala(judging, ["ISTJ", "ISFJ", "INFJ", "INTJ", "ESTJ", "ESFJ", "ENFJ", "ENTJ"]).
+sifat(introvert, ["ISTJ", "ISFJ", "INFJ", "INTJ", "ISTP", "ISFP", "INFP", "INTP"]).
+sifat(ekstrovert, ["ESTP", "ESFP", "ENFP", "ENTP", "ESTJ", "ESFJ", "ENFJ", "ENTJ"]).
+sifat(intuitif, ["INFJ", "INTJ", "INFP", "INTP", "ENFP", "ENTP", "ENFJ", "ENTJ"]).
+sifat(sensing, ["ISTJ", "ISFJ", "ISTP", "ISFP", "ESTP", "ESFP", "ESTJ", "ESFJ"]).
+sifat(thinking, ["ISTJ", "INTJ", "ISTP", "INTP", "ESTP", "ENTP", "ESTJ", "ENTJ"]).
+sifat(feeling, ["ISFJ", "INFJ", "ISFP", "INFP", "ESFP", "ENFP", "ESFJ", "ENFJ"]).
+sifat(perceiving, ["ISTP", "ISFP", "INFP", "INTP", "ESTP", "ESFP", "ENFP", "ENTP"]).
+sifat(judging, ["ISTJ", "ISFJ", "INFJ", "INTJ", "ESTJ", "ESFJ", "ENFJ", "ENTJ"]).
 
 % Aturan penilaian MBTI berdasarkan preferensi
 hitung_mbti(Tipe) :-
@@ -39,9 +39,9 @@ hitung_mbti(Tipe) :-
     atom_concat(A1, T_F, A2),
     atom_concat(A2, J_P, Tipe).
 
-% Hitung jumlah gejala_pos(X) yang masuk dalam preferensi tertentu
+% Hitung jumlah sifat_pos(X) yang masuk dalam preferensi tertentu
 hitung_pref(Kategori, Count) :-
-    findall(1, (gejala_pos(X), atom_concat(Kategori, _, X)), List),
+    findall(1, (sifat_pos(X), atom_concat(Kategori, _, X)), List),
     length(List, Count).
 
 % PERTANYAAN UNTUK MBTI (12 pertanyaan, 3 per dimensi)

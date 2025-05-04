@@ -6,50 +6,50 @@ from pyswip import Prolog
 prolog = Prolog()
 prolog.consult("mbti.pl")
 
-gejala_list = []
+sifat_list = []
 jawaban_positif = []
-index_gejala = -1
-current_gejala = ""
+index_sifat = -1
+current_sifat = ""
 import random
 
 # Fungsi untuk memulai tes MBTI
 def mulai_diagnosa():
-    global gejala_list, index_gejala
+    global sifat_list, index_sifat
 
     # Reset state
-    prolog.retractall("gejala_pos(_)") 
-    prolog.retractall("gejala_neg(_)")
+    prolog.retractall("sifat_pos(_)") 
+    prolog.retractall("sifat_neg(_)")
 
     start_btn.configure(state=tk.DISABLED)
     yes_btn.configure(state=tk.NORMAL)
     no_btn.configure(state=tk.NORMAL)
 
-    # Ambil semua gejala dan acak
-    gejala_set = list(prolog.query("pertanyaan(X, _)"))
-    gejala_list = [g["X"] for g in gejala_set]
-    random.shuffle(gejala_list)
+    # Ambil semua sifat dan acak
+    sifat_set = list(prolog.query("pertanyaan(X, _)"))
+    sifat_list = [g["X"] for g in sifat_set]
+    random.shuffle(sifat_list)
 
-    index_gejala = -1
+    index_sifat = -1
     pertanyaan_selanjutnya()
 
 # Tampilkan pertanyaan selanjutnya
 def pertanyaan_selanjutnya():
-    global index_gejala, current_gejala
+    global index_sifat, current_sifat
 
-    index_gejala += 1
+    index_sifat += 1
 
-    if index_gejala >= len(gejala_list):
+    if index_sifat >= len(sifat_list):
         hasil_diagnosa()
         return
 
-    current_gejala = gejala_list[index_gejala]
+    current_sifat = sifat_list[index_sifat]
 
-    if list(prolog.query(f"gejala_pos({current_gejala})")) or \
-       list(prolog.query(f"gejala_neg({current_gejala})")):
+    if list(prolog.query(f"sifat_pos({current_sifat})")) or \
+       list(prolog.query(f"sifat_neg({current_sifat})")):
         pertanyaan_selanjutnya()
         return
 
-    pertanyaan = list(prolog.query(f"pertanyaan({current_gejala}, Y)"))[0]["Y"].decode()
+    pertanyaan = list(prolog.query(f"pertanyaan({current_sifat}, Y)"))[0]["Y"].decode()
     tampilkan_pertanyaan(pertanyaan)
 
 # Tampilkan pertanyaan ke kotak teks
@@ -62,9 +62,9 @@ def tampilkan_pertanyaan(pertanyaan):
 # Simpan jawaban pengguna
 def jawaban(jwb):
     if jwb:
-        prolog.assertz(f"gejala_pos({current_gejala})")
+        prolog.assertz(f"sifat_pos({current_sifat})")
     else:
-        prolog.assertz(f"gejala_neg({current_gejala})")
+        prolog.assertz(f"sifat_neg({current_sifat})")
     pertanyaan_selanjutnya()
 
 # Logika menghitung hasil MBTI
@@ -85,7 +85,7 @@ def hasil_diagnosa():
     }
 
     # Ambil semua jawaban positif
-    jawaban_ya = list(prolog.query("gejala_pos(X)"))
+    jawaban_ya = list(prolog.query("sifat_pos(X)"))
 
     for j in jawaban_ya:
         nama = j["X"].decode() if isinstance(j["X"], bytes) else j["X"]
